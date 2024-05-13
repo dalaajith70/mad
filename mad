@@ -65,4 +65,757 @@ if (ch == 7) ch = 1;
 });
 }
 }
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+EX NO : 3 STUDY EXPERIMENT ON THE CONCEPT OF LAYOUT MANAGERS 
+AND EVENT LISTENERS
+
+app -> res -> layout -> activity_main.xml.
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" 
+android:layout_height="match_parent" tools:context=".MainActivity">
+<LinearLayout android:layout_width="match_parent" android:layout_height="100dp">
+<TextView android:id="@+id/textView" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:layout_margin="30dp" android:text="Details 
+Form" android:textSize="25sp" android:gravity="center"/>
+</LinearLayout>
+<GridLayout android:id="@+id/gridLayout" android:layout_width="match_parent" 
+android:layout_height="match_parent" android:layout_marginTop="100dp" 
+android:layout_marginBottom="200dp" android:columnCount="2" android:rowCount="3">
+<TextView android:id="@+id/textView1" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_margin="10dp" android:layout_row="0" 
+android:layout_column="0" android:text="Name" android:textSize="20sp" 
+android:gravity="center"/>
+<EditText android:id="@+id/editText" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_margin="10dp" android:layout_row="0" 
+android:layout_column="1" android:ems="10"/>
+<TextView android:id="@+id/textView2" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_margin="10dp" android:layout_row="1" 
+android:layout_column="0" android:text="Reg.No" android:textSize="20sp"
+android:gravity="center"/>
+<EditText android:id="@+id/editText2" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_margin="10dp" android:layout_row="1" 
+android:layout_column="1" android:inputType="number" android:ems="10"/>
+<TextView android:id="@+id/textView3" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_margin="10dp" android:layout_row="2"
+android:layout_column="0" android:text="Dept" android:textSize="20sp" 
+android:gravity="center"/>
+<Spinner android:id="@+id/spinner" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_margin="10dp"android:layout_row="2"
+android:layout_column="1" android:spinnerMode="dropdown"/>
+</GridLayout>
+<Button android:id="@+id/button" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_alignParentBottom="true" 
+android:layout_centerInParent="true" android:layout_marginBottom="150dp"
+android:text="Sub
+mit"/>
+</RelativeLayout>
+
+
+app -> res -> layout -> activity_second.xml.
+
+Code for Activity_second.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" 
+android:layout_height="match_parent"
+tools:context="com.example.devang.exno2.SecondActivity" android:orientation="vertical" 
+android:gravity="center">
+<TextView android:id="@+id/textView1" 
+android:layout_width="wrap_content" android:layout_height="wrap_content"
+android:layout_margin="20dp" android:text="New Text" android:textSize="30sp"/>
+<TextView android:id="@+id/textView2" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_margin="20dp" android:text="New 
+Text"
+android:textSize="30sp"/>
+<TextView android:id="@+id/textView3" 
+android:layout_width="wrap_content" android:layout_height="wrap_content"
+android:layout_margin="20dp" android:text="New Text" android:textSize="30sp"/>
+</LinearLayout>
+
+app -> java -> com.example.exno2 -> MainActivity
+
+package com.example.exno2; import android.content.Intent;
+import android.support.v7.app.AppCompatActivity; import android.os.Bundle; 
+import android.view.View;
+import android.widget.ArrayAdapter; import android.widget.Button; 
+import android.widget.EditText; import android.widget.Spinner;
+public class MainActivity extends AppCompatActivity {
+//Defining the Views EditText e1,e2; Button bt; 
+Spinner s;
+//Data for populating in Spinner
+String [] dept_array={"CSE","ECE","IT","Mech","Civil"}; String name,reg,dept; 
+@Override
+protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main);
+//Referring the Views
+e1= (EditText) findViewById(R.id.editText); e2= (EditText) findViewById(R.id.editText2); 
+bt= (Button) findViewById(R.id.button);
+s= (Spinner) findViewById(R.id.spinner);
+//Creating Adapter for Spinner for adapting the data from array to Spinner ArrayAdapter 
+adapter= new 
+ArrayAdapter(MainActivity.this,android.R.layout.simple_spinner_item,dept_array); 
+s.setAdapter(adapter);
+//Creating Listener for Button bt.setOnClickListener(new View.OnClickListener() { 
+@Override
+public void onClick(View v) {
+//Getting the Values from Views(Edittext & Spinner) 
+name=e1.getText().toString(); reg=e2.getText().toString(); 
+dept=s.getSelectedItem().toString();
+//Intent For Navigating to Second Activity
+Intent i = new Intent(MainActivity.this,SecondActivity.class);
+//For Passing the Values to Second Activity i.putExtra("name_key", name); 
+i.putExtra("reg_key",reg); i.putExtra("dept_key", dept); startActivity(i);
+}
+});
+}
+}
+
+Code for SecondActivity.java:
+app -> java -> com.example.exno2 -> SecondActivity.
+
+package com.example.exno2; import android.content.Intent;
+import android.support.v7.app.AppCompatActivity; import android.os.Bundle; 
+import android.widget.TextView;
+public class SecondActivity extends AppCompatActivity { TextView t1,t2,t3;
+String name,reg,dept; @Override
+protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_second);
+t1= (TextView) findViewById(R.id.textView1); t2= (TextView) 
+findViewById(R.id.textView2); t3= (TextView) findViewById(R.id.textView3);
+//Getting the Intent Intent i = getIntent();
+//Getting the Values from First Activity using the Intent received 
+name=i.getStringExtra("name_key"); reg=i.getStringExtra("reg_key"); 
+dept=i.getStringExtra("dept_key");
+//Setting the Values to Intent t1.setText(name); t2.setText(reg); t3.setText(dept);
+}
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Ex no : 4 DEVELOPMENT OF AN APPLICATION THAT USES LAYOUT MANAGERS 
+AND EVENT LISTENERS
+
+app -> java -> com.example.exno3 -> MainActivity
+
+Code for MainActivity:
+package com.example.exno4;
+import androidx.appcompat.app.AppCompatActivity; 
+import android.os.Bundle;
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.TextView;
+public class MainActivity extends AppCompatActivity { 
+private TextView txtFirst;
+private TextView txtSecond;
+private Button btnFirst; 
+private Button btnSecond;
+private int scoreFirst = 0; 
+private int scoreSecond = 0;
+@Override
+protected void onCreate(Bundle savedInstanceState) { 
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main);
+// initializing textview
+txtFirst = (TextView) findViewById(R.id.txtFirst); 
+txtSecond = (TextView) findViewById(R.id.txtSecond);
+// initializing button view
+btnFirst = (Button) findViewById(R.id.btnFirst); 
+btnSecond = (Button) findViewById(R.id.btnSecond);
+// setting initial value to text view 
+txtFirst.setText(String.valueOf(0)); 
+txtSecond.setText(String.valueOf(0));
+// updating textview on button click 
+btnFirst.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) { 
+scoreFirst++; 
+txtFirst.setText(String.valueOf(scoreFirst));
+}
+});
+// updating textview on button click 
+btnSecond.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View view) { 
+scoreSecond++;
+txtSecond.setText(String.valueOf(scoreSecond));
+}
+});
+}
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Ex no : 5 DEVELOPMENT OF A NATIVE CALCULATOR APPLICATION
+
+ app -> res -> layout -> activity_main.xml
+
+Code for activity_main.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent"
+android:orientation="vertical" 
+android:padding="16dp">
+<EditText 
+android:id="@+id/operand1"
+android:layout_width="match_parent" 
+android:layout_height="wrap_content" 
+android:hint="Operand 1" 
+android:inputType="numberDecimal" />
+<EditText 
+android:id="@+id/operand2"
+android:layout_width="match_parent" 
+android:layout_height="wrap_content" 
+android:hint="Operand 2" 
+android:inputType="numberDecimal" />
+<Button 
+android:id="@+id/add_button"
+android:layout_width="match_parent" 
+android:layout_height="wrap_content" 
+android:text="+" />
+<Button 
+android:id="@+id/subtract_button" 
+android:layout_width="match_parent" 
+android:layout_height="wrap_content" 
+android:text="-" />
+<Button 
+android:id="@+id/multiply_button" 
+android:layout_width="match_parent" 
+android:layout_height="wrap_content" 
+android:text="*" />
+<Button 
+android:id="@+id/divide_button" 
+android:layout_width="match_parent" 
+android:layout_height="wrap_content" 
+android:text="/" />
+<TextView 
+android:id="@+id/result_text" 
+android:layout_width="match_parent" 
+android:layout_height="wrap_content" 
+android:text="Result: " 
+android:textSize="20sp" />
+</LinearLayout>
+
+app -> java -> com.example.exno3 -> MainActivity
+
+Code for MainActivity.java:
+package com.example.inkhive; 
+import android.os.Bundle;
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity; 
+public class MainActivity extends AppCompatActivity {
+EditText operand1EditText, operand2EditText;
+Button addButton, subtractButton, multiplyButton, divideButton; 
+TextView resultTextView;
+@Override
+protected void onCreate(Bundle savedInstanceState) { 
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main);
+// Initialize the views
+operand1EditText = findViewById(R.id.operand1); 
+operand2EditText = findViewById(R.id.operand2); 
+addButton = findViewById(R.id.add_button); 
+subtractButton = findViewById(R.id.subtract_button); 
+multiplyButton = findViewById(R.id.multiply_button); 
+divideButton = findViewById(R.id.divide_button); 
+resultTextView = findViewById(R.id.result_text);
+// Set onClick listeners for each button 
+addButton.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) { 
+calculateResult('+');
+}
+});
+subtractButton.setOnClickListener(new View.OnClickListener() { 
+@Override
+public void onClick(View v) { 
+calculateResult('-');
+}
+});
+multiplyButton.setOnClickListener(new View.OnClickListener() { 
+@Override
+public void onClick(View v) { 
+calculateResult('*');
+}
+});
+divideButton.setOnClickListener(new View.OnClickListener() { 
+@Override
+public void onClick(View v) {
+calculateResult('/');
+}
+});
+}
+// Method to calculate the result based on the operation 
+private void calculateResult(char operation) {
+try {
+// Parse the input from the EditText fields
+double operand1 = Double.parseDouble(operand1EditText.getText().toString()); 
+double operand2 = Double.parseDouble(operand2EditText.getText().toString());
+double result = 0;
+// Perform the appropriate arithmetic operation 
+switch (operation) {
+case '+':
+result = operand1 + operand2; 
+break;
+case '-':
+result = operand1 - operand2; 
+break;
+case '*':
+result = operand1 * operand2; 
+break;
+case '/':
+if (operand2 != 0) {
+result = operand1 / operand2;
+} else {
+resultTextView.setText("Error: Division by zero"); 
+return;
+}
+break;
+}
+// Display the result 
+resultTextView.setText("Result: " + result);
+} catch (NumberFormatException e) { 
+resultTextView.setText("Error: Invalid input");
+}
+}
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+EX.NO: 7 WRITE AN APPLICATION THAT DRAWS BASIC GRAPHICAL PRIMITIVES 
+ON THE SCREEN
+
+Code for Activity_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" android:layout_height="match_parent">
+<ImageView android:layout_width="match_parent" android:layout_height="match_parent" 
+android:id="@+id/imageView" />
+</RelativeLayout>
+
+● Now click on Design and your application will look as given below.
+● So now the designing part is completed.
+
+Java Coding for the Android Application:
+● Click on app -> java -> com.example.exno4 -> MainActivity.
+● Click on app -> java -> com.example.exno4 -> DrawView.
+● Then delete the code which is there and type the code as given below.
+Code for MainActivity.java:
+package com.example.graphicalprimitivesapp;
+import androidx.appcompat.app.AppCompatActivity; 
+import android.os.Bundle;
+public class MainActivity extends AppCompatActivity { 
+@Override
+protected void onCreate(Bundle savedInstanceState) { 
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main);
+}
+}
+Code for DrawView.java:
+package com.example.graphicalprimitivesapp; 
+import android.content.Context;
+import android.graphics.Canvas; 
+import android.graphics.Color; 
+import android.graphics.Paint; 
+import android.graphics.RectF; 
+import android.util.AttributeSet; 
+import android.view.View;
+public class DrawView extends View { 
+private Paint paint;
+public DrawView(Context context, AttributeSet attrs) { 
+super(context, attrs);
+paint = new Paint(); 
+paint.setColor(Color.RED); 
+paint.setStrokeWidth(5); 
+paint.setTextSize(50);
+}
+@Override
+protected void onDraw(Canvas canvas) { 
+super.onDraw(canvas);
+canvas.drawText("Graphical Primitives", 50, 50, paint);
+// Draw a rectangle
+canvas.drawRect(100, 100, 300, 300, paint);
+// Draw a circle
+canvas.drawCircle(500, 200, 100, paint);
+// Draw a line
+canvas.drawLine(100, 400, 300, 600, paint);
+}
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+EX NO : 8 DEVELOP AN APPLICATION THAT MAKES USE OF RSS FEED
+
+Code for Activity_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="fill_parent"
+android:layout_height="fill_parent" android:orientation="vertical" >
+<ListView android:id="@+id/listView"
+android:layout_width="match_parent" android:layout_height="wrap_content" />
+</LinearLayout>
+
+● Now click on Design and your application will look as given below.
+● So now the designing part is completed.
+Adding permissions in Manifest for the Android Application:
+● Click on app -> manifests -> AndroidManifest.xml
+● Now include the INTERNET permissions in the AndroidManifest.xml file as shown 
+below
+
+Code for AndroidManifest.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
+package="com.example.exno6" >
+<uses-permission android:name="android.permission.INTERNET"/>
+<application android:allowBackup="true" android:icon="@mipmap/ic_launcher" 
+android:label="@string/app_name" android:supportsRtl="true" 
+android:theme="@style/AppTheme" >
+<activity android:name=".MainActivity" >
+<intent-filter>
+<action android:name="android.intent.action.MAIN" />
+<category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+</activity>
+</application>
+</manifest>
+
+● So now the Permissions are added in the Manifest.
+Java Coding for the Android Application:
+● Click on app -> java -> com.example.exno6 -> MainActivity.
+● Then delete the code which is there and type the code as given below.
+
+
+Code for MainActivity.java:
+
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity; 
+import android.app.ProgressDialog;
+import android.content.Intent; 
+import android.net.Uri;
+import android.os.AsyncTask; 
+import android.os.Bundle; 
+import android.view.View;
+import android.widget.AdapterView; 
+import android.widget.ArrayAdapter; 
+import android.widget.ListView;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException; 
+import org.xmlpull.v1.XmlPullParserFactory; 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException; 
+import java.net.URL;
+import java.util.ArrayList;
+public class MainActivity extends AppCompatActivity {
+ListView lvRss; 
+ArrayList<String> titles; 
+ArrayList<String> links; 
+@Override
+protected void onCreate(Bundle savedInstanceState) { 
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main);
+lvRss = (ListView) findViewById(R.id.lvRss); 
+titles = new ArrayList<String>();
+links = new ArrayList<String>();
+lvRss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+@Override
+public void onItemClick(AdapterView<?> parent, View view, int position, long id) { 
+Uri uri = Uri.parse(links.get(position));
+Intent intent = new Intent(Intent.ACTION_VIEW,uri); 
+startActivity(intent);
+}
+});
+new ProcessInBackground().execute();
+}
+public InputStream getInputStream(URL url)
+{
+try
+{
+return url.openConnection().getInputStream();
+}
+catch(IOException e)
+{
+return null;
+}
+}
+public class ProcessInBackground extends AsyncTask<Integer, Void, Exception>
+{
+ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+Exception exception = null; 
+@Override
+protected void onPreExecute()
+{
+super.onPreExecute();
+progressDialog.setMessage("Busy loading rss feed...please wait..."); 
+progressDialog.show();
+}
+@Override
+protected Exception doInBackground(Integer... params) {
+try {
+URL url = new URL("https://feeds.capi24.com/v1/Search/articles/fin24/tech/rss"); 
+XmlPullParserFactory factory = XmlPullParserFactory.newInstance(); 
+factory.setNamespaceAware(false);
+XmlPullParser xpp = factory.newPullParser(); 
+xpp.setInput(getInputStream(url),"utf_8"); 
+boolean insideItem = false;
+int eventType = xpp.getEventType();
+while(eventType != XmlPullParser.END_DOCUMENT)
+{
+if(eventType == XmlPullParser.START_TAG)
+{
+if (xpp.getName().equalsIgnoreCase("item"))
+{
+insideItem = true;
+}
+else if (xpp.getName().equalsIgnoreCase("title"))
+{
+if (insideItem)
+{
+titles.add(xpp.nextText());
+}
+}
+else if (xpp.getName().equalsIgnoreCase("link"))
+{
+if (insideItem)
+{
+links.add(xpp.nextText());
+}
+}
+}
+else if (eventType == XmlPullParser.END_TAG && 
+xpp.getName().equalsIgnoreCase("item"))
+{
+insideItem = false;
+}
+eventType = xpp.next();
+}
+}
+catch (MalformedURLException e){ 
+exception = e;
+}
+catch (XmlPullParserException e){
+exception = e;
+}
+catch(IOException e){ 
+exception = e;
+}
+return exception;
+}
+@Override
+protected void onPostExecute(Exception s)
+{
+super.onPostExecute(s);
+ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, 
+android.R.layout.simple_list_item_1,titles);
+lvRss.setAdapter(adapter); 
+progressDialog.dismiss();
+}
+}
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+EX NO : 9 IMPLEMENT AN APPLICATION THAT CREATES AN ALERT UPON 
+RECEIVING A MESSAGE
+
+Code for Activity_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent" 
+android:layout_height="match_parent" 
+tools:context=".MainActivity">
+<Button 
+android:id="@+id/alertButton" 
+android:layout_width="202dp" 
+android:layout_height="93dp" 
+android:layout_centerInParent="true" 
+android:text="Show Alert" />
+<TextView 
+android:id="@+id/textView2" 
+android:layout_width="166dp" 
+android:layout_height="81dp"
+android:layout_alignRight="@id/textView2" 
+android:layout_centerInParent="false" 
+android:text="Welcome Abdul" />
+</RelativeLayout>
+
+● Now click on Design and your application will look as given below.
+● So now the designing part is completed.
+Java Coding for the Android Application:
+● Click on app -> java -> com.example.exno10 -> MainActivity.
+● Then delete the code which is there and type the code as given below.
+
+Code for MainActivity.java:
+
+package com.example.messagealert; 
+import android.app.AlertDialog;
+import android.content.DialogInterface; 
+import android.os.Bundle;
+import android.view.View; 
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity; 
+public class MainActivity extends AppCompatActivity { 
+@Override
+protected void onCreate(Bundle savedInstanceState) { 
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_main);
+Button alertButton = findViewById(R.id.alertButton); 
+alertButton.setOnClickListener(new View.OnClickListener() { 
+@Override
+public void onClick(View v) { 
+showAlert();
+}
+});
+}
+private void showAlert() {
+AlertDialog.Builder builder = new AlertDialog.Builder(this); 
+builder.setTitle("Alert");
+builder.setMessage("You have received a message!"); 
+builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+@Override
+public void onClick(DialogInterface dialog, int which) { 
+dialog.dismiss();
+}
+});
+builder.create().show();
+}
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+EX NO : 10 WRITE A MOBILE APPLICATION THAT CREATES ALARM CLOCK
+
+
+Code for Activity_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" android:layout_height="match_parent"
+android:orientation="vertical">
+<TimePicker
+android:id="@+id/timePicker" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_gravity="center" />
+<ToggleButton android:id="@+id/toggleButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:layout_gravity="center" 
+android:layout_margin="20dp" android:checked="false" 
+android:onClick="OnToggleClicked" />
+</LinearLayout>
+● Now click on Design and your application will look as given below.
+● So now the designing part is completed.
+Changes in Manifest for the Android Application:
+● Click on app -> manifests -> AndroidManifest.xml
+● Now change the activity tag to receiver tag in the AndroidManifest.xml file as shown 
+below
+
+Code for AndroidManifest.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
+package="com.example.exno11" >
+<application android:allowBackup="true" android:icon="@mipmap/ic_launcher" 
+android:label="@string/app_name" android:supportsRtl="true" 
+android:theme="@style/AppTheme" >
+<activity android:name=".MainActivity" >
+<intent-filter>
+<action android:name="android.intent.action.MAIN" />
+<category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+</activity>
+<receiver android:name=".AlarmReceiver" >
+</receiver>
+</application>
+</manifest>
+
+● So now the changes are done in the Manifest.
+Java Coding for the Android Application:
+Java Coding for Main Activity:
+● Click on app -> java -> com.example.exno11 -> MainActivity.
+● Then delete the code which is there and type the code as given below.
+
+Code for MainActivity.java:
+
+package com.example.exno11; import android.app.AlarmManager;
+import android.app.PendingIntent; import android.content.Intent; import android.os.Bundle; 
+import android.support.v7.app.AppCompatActivity; import android.view.View;
+import android.widget.TimePicker; import android.widget.Toast; 
+import android.widget.ToggleButton; import java.util.Calendar; 
+public class MainActivity extends AppCompatActivity
+{
+TimePicker alarmTimePicker; PendingIntent pendingIntent; AlarmManager alarmManager;
+@Override
+protected void onCreate(Bundle savedInstanceState)
+{
+super.onCreate(savedInstanceState); setContentView(R.layout.activity_main); 
+alarmTimePicker = (TimePicker) findViewById(R.id.timePicker); alarmManager = 
+(AlarmManager) getSystemService(ALARM_SERVICE);
+}
+public void OnToggleClicked(View view)
+{
+long time;
+if (((ToggleButton) view).isChecked())
+{
+Toast.makeText(MainActivity.this, "ALARM ON", Toast.LENGTH_SHORT).show(); 
+Calendar calendar = Calendar.getInstance(); calendar.set(Calendar.HOUR_OF_DAY, 
+alarmTimePicker.getCurrentHour()); calendar.set(Calendar.MINUTE, 
+alarmTimePicker.getCurrentMinute());
+Intent intent = new Intent(this, AlarmReceiver.class); pendingIntent = 
+PendingIntent.getBroadcast(this, 0, intent, 0); 
+time=(calendar.getTimeInMillis()-(calendar.getTimeInMillis()%60000)); 
+if(System.currentTimeMillis()>time)
+{
+if (calendar.AM_PM == 0)
+time = time + (1000*60*60*12); else 
+time = time + (1000*60*60*24);
+}
+alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 10000, pendingIntent);
+}
+else
+{
+alarmManager.cancel(pendingIntent);
+Toast.makeText(MainActivity.this, "ALARM OFF", Toast.LENGTH_SHORT).show();
+}
+}
+}
+
+● So now the Coding part of Main Activity is completed.
+Java Coding for Alarm Receiver:
+● Click on app -> java -> com.example.exno11 -> AlarmReceiver.
+● Then delete the code which is there and type the code as given below.
+
+Code for AlarmReceiver.java:
+
+package com.example.exno11;
+import android.content.BroadcastReceiver; import android.content.Context; 
+import android.content.Intent; import android.media.Ringtone;
+import android.media.RingtoneManager; import android.net.Uri; 
+import android.widget.Toast;
+public class AlarmReceiver extends BroadcastReceiver
+{
+@Override
+public void onReceive(Context context, Intent intent)
+{
+Toast.makeText(context, "Alarm! Wake up! Wake up!", Toast.LENGTH_LONG).show(); 
+Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+if (alarmUri == null)
+{
+alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+}
+Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri); ringtone.play();
+}
+}
